@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { 
+import {
     StyleSheet,
     Platform,
-    View, 
+    View,
     Text,
     TouchableOpacity
 } from 'react-native';
@@ -17,7 +17,7 @@ import MetricCard from './MetricCard';
 import { AppLoading } from 'expo';
 
 class History extends Component {
-    
+
     state = {
         ready: false,
     }
@@ -48,13 +48,16 @@ class History extends Component {
                         {today}
                     </Text>
                 </View>
-                : <TouchableOpacity onPress={() => console.log('Pressed')}>
+                : <TouchableOpacity onPress={() => this.props.navigation.navigate(
+                    'EntryDetail',
+                    { entryId: key }
+                )}>
                     <MetricCard metrics={metrics} date={formattedDate} />
                 </TouchableOpacity>
             }
         </View>
     )
-    
+
     renderEmptyDate(formattedDate) {
         return (
             <View style={styles.item}>

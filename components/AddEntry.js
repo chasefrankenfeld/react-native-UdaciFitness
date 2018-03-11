@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { 
-    View, 
-    Text, 
+import {
+    View,
+    Text,
     TouchableOpacity,
     Platform,
     StyleSheet,
 } from 'react-native';
-import { 
-    getMetricMetaInfo, 
+import {
+    getMetricMetaInfo,
     timeToString,
     getDailyReminderValue
 } from '../utils/helpers';
@@ -20,10 +20,11 @@ import { submitEntry, removeEntry } from '../utils/api';
 import { connect } from 'react-redux';
 import { addEntry } from '../actions';
 import { white, purple } from '../utils/colors';
+import { NavigationActions } from "react-navigation";
 
 function SubmitBtn ({ onPress }) {
     return (
-        <TouchableOpacity 
+        <TouchableOpacity
             onPress={onPress}
             style={Platform.os === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
         >
@@ -44,7 +45,7 @@ class AddEntry extends Component {
 
     increment = (metric) => {
         const { max, step } = getMetricMetaInfo(metric)
-        
+
         this.setState((state) => {
             const count = state[metric] + step
 
@@ -55,7 +56,7 @@ class AddEntry extends Component {
         })
     }
 
-    decrement = (metric) => {        
+    decrement = (metric) => {
         this.setState((state) => {
             const count = state[metric] - getMetricMetaInfo(metric).step
 
@@ -88,10 +89,10 @@ class AddEntry extends Component {
             eat: 0,
         }))
 
-        // Navigate to home
-        
+        this.toHome()
+
         submitEntry({ key, entry })
-        
+
         // Clear local notification
     }
 
@@ -101,9 +102,17 @@ class AddEntry extends Component {
         this.props.dispatch(addEntry({
             [key]: getDailyReminderValue()
         }))
-        // Route to home
+
+        this.toHome()
 
         removeEntry(key)
+    }
+
+    toHome = () => {
+        this.props.navigation.dispatch(NavigationActions.back({
+            // Where we want to go back from
+            key: 'AddEntry'
+        }))
     }
 
     render() {
@@ -132,12 +141,12 @@ class AddEntry extends Component {
                 {Object.keys(metaInfo).map((key) => {
                     const { getIcon, type, ...rest } = metaInfo[key]
                     const value = this.state[key]
-                    
+
                     return (
                         <View key={key} style={styles.row}>
                             {getIcon()}
                             {type === 'slider'
-                                ? <UdaciSlider 
+                                ? <UdaciSlider
                                     value={value}
                                     onChange={(value) => this.slide(key, value)}
                                     {...rest}
