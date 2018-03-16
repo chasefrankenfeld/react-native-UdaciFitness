@@ -1,5 +1,20 @@
 {
   "expo": {
-    "sdkVersion": "25.0.0"
+    "sdkVersion": "25.0.0",
+    "orientation": "portrait",
+    "name": "UdaciFitness",
+    "description": "The best fitness tracker ever",
+    "slug": "udacifitness",
+    "versions": "1.0",
+    "icon": "https://tylermicginnis.com/udacifitness-512.png",
+    "notification": {
+      "icon": "https://tylermicginnis.com/udacifitness-45.png"
+    },
+    "ios": {
+      "bundleIdentifier": "org.udacifitness.exp"
+    },
+    "android": {
+      "package": "org.udacifitness.exp"
+    }
   }
 }
